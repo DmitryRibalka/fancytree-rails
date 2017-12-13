@@ -9,7 +9,6 @@ def build_image_dependencies(source_code)
   end
 end
 
-
 namespace :fancytree do
   desc "Update FancyTree library from current version"
   task :update => :build do
@@ -25,7 +24,7 @@ namespace :fancytree do
           source_code.gsub!(/\A(\/\*!.+?\*\/\s)/m, "\\1\n/*\n#{build_image_dependencies(source_code)} */\n\n") unless build_image_dependencies(source_code).empty?
           source_code.gsub!(/url\("icons.gif"\)/, 'url(<%= image_path("fancytree/icons.gif") %>)')
 
-          output_path = "../../../app/assets/stylesheets/fancytree/#{file}.erb"
+          output_path = "../../../app/assets/stylesheets/fancytree/#{file.gsub('css','scss')}.erb"
           mkdir_p File.dirname(output_path)
           File.open(output_path, "w") do |out|
             out.write(source_code)
